@@ -1,15 +1,11 @@
-
 /**
- * Module dependencies.
+ * Anime-tweet-server.
  */
-
 var express = require('express'),
     http = require('http'),
     fs = require('fs'),
     config = require('./config/config'),
     routes = require('./routes');
-  // , http = require('http')
-  // , path = require('path');
 
 var app = express(),
     server = http.createServer(app),
@@ -21,3 +17,12 @@ require('./config/express')(app, config);
 app.get('/', routes.index);
 
 server.listen(config.port);
+
+// socket open
+io.sockets.on('connection', function (socket) {
+  var data = {
+    userId: 'user0001',
+    message: 'hello'
+  };
+  socket.emit('tweet', data);
+});

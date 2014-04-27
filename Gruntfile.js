@@ -7,6 +7,7 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
   // load all grunt tasks
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   var reloadPort = 35729, files;
 
@@ -15,6 +16,14 @@ module.exports = function (grunt) {
     develop: {
       server: {
         file: 'app.js'
+      }
+    },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['test/**/*.js']
       }
     },
     watch: {
