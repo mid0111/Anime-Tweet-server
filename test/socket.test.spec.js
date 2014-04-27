@@ -2,37 +2,22 @@ var chai      = require('chai');
 var expect = chai.expect;
 
 var app = require('../app');
-
 var client = require('socket.io-client');
 
-describe('socket', function() {
 
-  // describe('socket接続', function() {
-  //   it('socketに接続できること', function() {
-  //     var socket = client.connect('http://localhost:3000');
-  //     socket.emit('disconnect', null);
-  //   });
-  // });
+describe('socket接続', function() {
 
-  describe('socketデータ送信', function() {
-    var socket;
+  it('socketに接続できること', function() {
+    var socket = client.connect('http://localhost:3000');
+  });
 
-    before(function(done) {
-      socket = client.connect('http://localhost:3000');
+  it('socketに接続できること', function(done) {
+    var socket = client.connect('http://localhost:3000');
+    socket.on('tweet', function (data) {
+      expect(data.userId).not.to.be.null;
+      expect(data.message).not.to.be.null;
       done();
     });
-
-    after(function() {
-      socket.emit('disconnect', null);
-    });
-
-    it('期待する形式でsocketからデータを受信できること', function(done) {
-
-      socket.on('tweet', function (data) {
-        expect(data.userId).not.to.be.null;
-        expect(data.message).not.to.be.null;
-        done();
-      });
-    });
   });
+
 });
