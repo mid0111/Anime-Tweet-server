@@ -17,11 +17,7 @@ app.get('/', routes.index);
 
 server.listen(config.port);
 
-//
-// Twitterストリーミング
-//
-var twit = require('./config/twitter');
-
+// Twitter検索条件
 // TODO タイトル取得処理は直接Httpリクエスト投げないで、バッチとかで実行する
 //     ※現状は、初回起動時のみHttpリクエスト（しかも非同期）でタイトル取得
 var titles = '';
@@ -51,7 +47,17 @@ http.request(options, function(response) {
   });
 }).end();
 
-// Twitter検索条件
+//
+// Twitterストリーミング
+//
+var twitter = require('ntwitter');
+var twit = new twitter({
+  consumer_key: process.env.TWITTER_API_KEY,
+  consumer_secret: process.env.TWITTER_API_SECRET,
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
+  
 io.sockets.on('connection', function (socket) {
   console.log('socket connected.');
   // Twitterストリーム作成
