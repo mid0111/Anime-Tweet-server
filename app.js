@@ -15,7 +15,7 @@ app.get('/', routes.index);
 
 var server = http.createServer(app),
     io = require('socket.io').listen(server);
-server.listen(config.port);
+server.listen(process.env.PORT || config.port);
 
 // Twitter検索条件
 // TODO タイトル取得処理は直接Httpリクエスト投げないで、バッチとかで実行する
