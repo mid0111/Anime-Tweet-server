@@ -14,8 +14,11 @@ require('./config/express')(app, config);
 app.get('/', routes.index);
 
 var server = http.createServer(app),
-    io = require('socket.io').listen(server);
-server.listen(process.env.PORT || config.port);
+    io = require('socket.io').listen(server),
+    port = (process.env.PORT || config.port);
+server.listen(port);
+
+console.log('port: ' + port);
 
 // Twitter検索条件
 // TODO タイトル取得処理は直接Httpリクエスト投げないで、バッチとかで実行する
