@@ -6,15 +6,15 @@ var express = require('express'),
     config = require('./config/config'),
     routes = require('./routes');
 
-var app = express(),
-    server = http.createServer(app),
-    io = require('socket.io').listen(server);
+var app = express();
 
 require('./config/express')(app, config);
 
 // routes
 app.get('/', routes.index);
 
+var server = http.createServer(app),
+    io = require('socket.io').listen(server);
 server.listen(config.port);
 
 // Twitter検索条件
