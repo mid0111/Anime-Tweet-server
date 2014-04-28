@@ -15,8 +15,12 @@ app.get('/', routes.index);
 
 var server = http.createServer(app),
     io = require('socket.io').listen(server),
+    // heroku 用に環境変数からポートを読み込む
     port = (process.env.PORT || config.port);
+
 server.listen(port);
+
+// heroku でWebSocket使うための設定
 io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 10); 
