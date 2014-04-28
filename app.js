@@ -17,6 +17,10 @@ var server = http.createServer(app),
     io = require('socket.io').listen(server),
     port = (process.env.PORT || config.port);
 server.listen(port);
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
 
 console.log('port: ' + port);
 
