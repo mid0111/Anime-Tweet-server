@@ -3,7 +3,6 @@
  */
 var express = require('express'),
     http = require('http'),
-    fs = require('fs'),
     config = require('./config/config'),
     routes = require('./routes');
 
@@ -23,14 +22,40 @@ server.listen(config.port);
 //
 var twit = require('./config/twitter');
 
-// Twitter検索条件
-// TODO: Anime map apiから取得した値に変更（現状は仮で固定値を指定）
-var tracks = 'node, express, mocha, google';
+// TODO タイトル取得処理は直接Httpリクエスト投げないで、バッチとかで実行する
+//     ※現状は、初回起動時のみHttpリクエスト（しかも非同期）でタイトル取得
+var titles = '';
+var options = {
+  host: 'animemap.net',
+  path: '/api/table/tokyo.json'
+};
+http.request(options, function(response) {
+  var str = '';
+  response.on('data', function (chunk) {
+    str += chunk;
+  });
 
+  response.on('end', function () {
+    var items = JSON.parse(str).response.item;
+
+    for (var i = 0 ; i < items.length ; i++) {
+      var item = items[i];
+      var title = item.title;
+      if(title === 'undefined') {
+        continue;
+      } else if(titles !== null && titles.length != 0) {
+        titles += ', ';
+      }
+      titles += title;
+    }
+  });
+}).end();
+
+// Twitter検索条件
 io.sockets.on('connection', function (socket) {
   console.log('socket connected.');
   // Twitterストリーム作成
-  var twitStream = twit.stream('statuses/filter', {'track': tracks}, function(stream) {
+  var twitStream = twit.stream('statuses/filter', {'track': titles}, function(stream) {
     stream.on('data', function (data) {
       console.log('tweets: ' + JSON.stringify(data));
       var twitterMessage = {
