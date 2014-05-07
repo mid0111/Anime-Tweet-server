@@ -1,7 +1,8 @@
 var chai      = require('chai');
 var expect = chai.expect;
 var db = require('../config/db');
-var AnimeAccessor = require('../models/animeAccessor');
+
+var AnimeAccessor = require('../accessor/animeAccessor');
 
 describe('AnimeAccessor', function() {
   beforeEach(function(done) {
