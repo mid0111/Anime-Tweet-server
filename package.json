@@ -9,7 +9,10 @@
     "express": "~3.3.4",
     "jade": "~0.34.0",
     "socket.io": "^0.9.16",
-    "ntwitter": "^0.5.0"
+    "ntwitter": "^0.5.0",
+    "pg": "^3.0.3",
+    "knex": "^0.5.13",
+    "bookshelf": "^0.6.10"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -23,8 +26,8 @@
     "chai": "^2.9.1",
     "socket.io-client": "^0.9.16"
   },
-  "engines":{
-      "node": "0.10.26",
-      "npm": "1.4.3"
+  "engines": {
+    "node": "0.10.26",
+    "npm": "1.4.3"
   }
 }
