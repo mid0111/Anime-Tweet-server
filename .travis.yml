@@ -1,5 +1,13 @@
 language: node_js
 node_js:
-    - "0.10"
+- '0.10'
 before_script:
-  - npm install -g grunt-cli
+- npm install -g grunt-cli
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  app: Anime-Tweet-server
+  api_key:
+    secure: PuRaHgQ08Ngj3gvg1AnPM2f6Z+js2GXmbQYAU16iSVMMp1/j85is8zcGN8lOHcPFN+ENy/Lauo9AF7FAgoOxiYdCzkYc5+H3ToQRtkRj9TYbfqwLHm0th0Mf96R5ccB7MO4n+NYhD/hCOKznQK6ssjssLPz06Cb0Qzs8yyrFWJk=
