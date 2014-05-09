@@ -8,10 +8,17 @@ module.exports = function (grunt) {
   // load all grunt tasks
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-env');
 
   var reloadPort = 35729, files;
 
   grunt.initConfig({
+    env : {
+      test : {
+        NODE_ENV : 'test'
+      }
+    },
+
     pkg: grunt.file.readJSON('package.json'),
     develop: {
       server: {
@@ -79,4 +86,5 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['develop', 'watch']);
+  grunt.registerTask('test', ['env:test', 'mochaTest']);
 };

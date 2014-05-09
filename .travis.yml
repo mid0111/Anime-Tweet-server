@@ -6,7 +6,8 @@ env:
     - NODE_ENV=travisci
 before_script:
   - npm install -g grunt-cli
-  - psql -c 'create database anime_tweet;' -U postgres
+  - psql -c 'create database anime_tweet_test;' -U postgres
+  - psql -U postgres -d 'anime_tweet_test' -c 'create table anime (id serial primary key, aria text unique not null, titles text);'
 branches:
   only:
     - master
