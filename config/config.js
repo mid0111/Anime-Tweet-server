@@ -19,6 +19,14 @@ var config = {
     port: 3000
   },
 
+  travisci: {
+    root: rootPath,
+    app: {
+      name: 'Anime-tweet'
+    },
+    port: 3000
+  },
+
   production: {
     root: rootPath,
     app: {
