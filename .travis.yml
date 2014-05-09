@@ -7,6 +7,7 @@ env:
 before_script:
   - npm install -g grunt-cli
   - psql -c 'create database anime_tweet;' -U postgres
+  - psql -U postgres -d 'anime_tweet' -c 'create table anime (id serial primary key, aria text unique not null, titles text);'
 branches:
   only:
     - master

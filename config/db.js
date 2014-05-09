@@ -17,11 +17,18 @@ var config = {
     database : 'anime_tweet_test'
   },
 
-  production: {
+  travisci: {
     host     : '127.0.0.1',
+    user     : 'postgres',
+    database : 'anime_tweet'
+  },
+
+  production: {
+    host     : process.env.DB_HOST,
+    port     : process.env.DB_PORT,
     user     : process.env.DB_USER,
     password : process.env.DB_PASSWORD,
-    database : 'anime_tweet'
+    database : process.env.DB_NAME
   }
 };
 

@@ -79,5 +79,24 @@ describe('AnimeAccessor', function() {
     accessor.deleteFromAria('Hawaii', done);
   });
 
+  it('タイトルに日本語を含むデータを保存取得できること', function(done) {
+    var accessor = new AnimeAccessor;
+
+    var aria = 'Tokyo';
+    var titles = '名探偵コナン, 銀魂, ~ ~';
+
+    accessor.create({
+      aria: aria,
+      titles: titles
+    }, function() {
+      accessor.searchOneFromAria(aria, function(model) {
+        expect(model).not.to.be.empty;
+        expect(model.titles).is.equal(titles);
+        expect(model.aria).is.equal(aria);
+        expect(model.id).not.to.be.empty;
+        accessor.deleteFromAria(aria, done);
+      });
+    });
+  });
 });
 
