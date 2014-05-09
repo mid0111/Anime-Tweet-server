@@ -20,7 +20,7 @@ var config = {
   travisci: {
     host     : '127.0.0.1',
     user     : 'postgres',
-    database : 'anime_tweet'
+    database : 'anime_tweet_test'
   },
 
   production: {
