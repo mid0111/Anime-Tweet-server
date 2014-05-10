@@ -42,12 +42,16 @@ accessor.searchOneFromAria('Saitama', function(model) {
   // Twitterストリーミング
   //
   var twitter = require('ntwitter');
-  var tweet = require('./config/twitter');
+  // var tweet = require('./config/twitter');
   var twit = new twitter({
-    consumer_key: (process.env.TWITTER_API_KEY || tweet.consumer_key),
-    consumer_secret: (process.env.TWITTER_API_SECRET || tweet.consumer_secret),
-    access_token_key: (process.env.TWITTER_ACCESS_TOKEN || tweet.access_token_key),
-    access_token_secret: (process.env.TWITTER_ACCESS_TOKEN_SECRET || tweet.access_token_secret)
+    // consumer_key: (process.env.TWITTER_API_KEY || tweet.consumer_key),
+    // consumer_secret: (process.env.TWITTER_API_SECRET || tweet.consumer_secret),
+    // access_token_key: (process.env.TWITTER_ACCESS_TOKEN || tweet.access_token_key),
+    // access_token_secret: (process.env.TWITTER_ACCESS_TOKEN_SECRET || tweet.access_token_secret)
+    consumer_key: (process.env.TWITTER_API_KEY),
+    consumer_secret: (process.env.TWITTER_API_SECRET),
+    access_token_key: (process.env.TWITTER_ACCESS_TOKEN),
+    access_token_secret: (process.env.TWITTER_ACCESS_TOKEN_SECRET)
   });
   console.log('configuration of twitter: ' + twit);
   
