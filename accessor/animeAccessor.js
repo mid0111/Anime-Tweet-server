@@ -1,21 +1,21 @@
 var Log = console.log;
 
-// DB初期化.
-require('../config/db').initialize();
-
-var Bookshelf = require('bookshelf').PG;
-
-// Model定義
-var model = Bookshelf.Model.extend({
-  tableName: 'anime'
-});
-
-// Collection定義
-var collection = Bookshelf.Collection.extend({
-    model: model
-});
-
 var AnimeAccessor = function() {
+  // DB初期化.
+  require('../config/db').initialize();
+
+  var Bookshelf = require('bookshelf').PG;
+
+  // Model定義
+  var model = Bookshelf.Model.extend({
+    tableName: 'anime'
+  });
+
+  // Collection定義
+  var collection = Bookshelf.Collection.extend({
+    model: model
+  });
+
   // 指定されたModelのレコードを登録する.
   this.create = function(json, success, error) {
     new model({
