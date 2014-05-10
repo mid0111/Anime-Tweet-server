@@ -4,7 +4,8 @@
 var express = require('express'),
     http = require('http'),
     config = require('./config/config'),
-    routes = require('./routes');
+    routes = require('./routes'),
+    fs = require('fs');
 
 var app = express();
 
@@ -19,13 +20,6 @@ var server = http.createServer(app),
     port = (process.env.PORT || config.port);
 
 server.listen(port);
-
-// // heroku でWebSocket使うための設定
-// io.configure(function () { 
-//   io.set("transports", ["xhr-polling"]); 
-//   io.set("polling duration", 10); 
-// });
-
 console.log('port: ' + port);
 
 // Twitter検索条件
@@ -42,7 +36,9 @@ accessor.searchOneFromAria('Saitama', function(model) {
   // Twitterストリーミング
   //
   var twitter = require('ntwitter');
-  var tweet = require('./config/twitter');
+  if(fs.existsSync('./config/twitter.js')) {
+    var tweet = require('./config/twitter');
+  }
   var twit = new twitter({
     consumer_key: (process.env.TWITTER_API_KEY || tweet.consumer_key),
     consumer_secret: (process.env.TWITTER_API_SECRET || tweet.consumer_secret),
