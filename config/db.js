@@ -35,6 +35,11 @@ var config = {
 var  Bookshelf  = require('bookshelf');
 exports.initialize = function() {
   if(Bookshelf.PG === undefined) {
+    console.log('initialize db settings...');
+    console.log('host: ' + config[env].host);
+    console.log('user: ' +  config[env].user);
+    console.log('password: ' + config[env].password);
+    console.log('database: ' + config[env].database);
     // Bookshelf初期化
     Bookshelf.PG = Bookshelf.initialize({
       client: 'pg',

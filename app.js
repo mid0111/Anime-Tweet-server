@@ -34,6 +34,7 @@ console.log('port: ' + port);
 var titles = '';
 var AnimeAccessor = require('./accessor/animeAccessor');
 var accessor = new AnimeAccessor;
+console.log('----------------------------------------------------------------');
 accessor.searchOneFromAria('Saitama', function(model) {
   titles = model.titles;
   console.log('titles: ' + titles);
