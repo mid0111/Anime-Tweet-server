@@ -64,5 +64,9 @@ accessor.searchOneFromAria('Saitama', function(model) {
       console.log('user disconnected.');
       io.sockets.emit('user disconnected');
     });
+    socket.on('close', function () {
+      console.log('user disconnected.');
+      io.sockets.emit('user disconnected');
+    });
   });
 });
