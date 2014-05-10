@@ -8,8 +8,6 @@ before_script:
   - npm install -g grunt-cli
   - psql -c 'create database anime_tweet_test;' -U postgres
   - psql -U postgres -d 'anime_tweet_test' -c 'create table anime (id serial primary key, aria text unique not null, titles text);'
-after_script:
-  - touch config/twitter.js
 branches:
   only:
     - master
@@ -21,3 +19,5 @@ deploy:
   app: anime-tweet
   api_key:
     secure: PuRaHgQ08Ngj3gvg1AnPM2f6Z+js2GXmbQYAU16iSVMMp1/j85is8zcGN8lOHcPFN+ENy/Lauo9AF7FAgoOxiYdCzkYc5+H3ToQRtkRj9TYbfqwLHm0th0Mf96R5ccB7MO4n+NYhD/hCOKznQK6ssjssLPz06Cb0Qzs8yyrFWJk=
+  run:
+   - "touch config/twitter.js"
