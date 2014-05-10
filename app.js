@@ -59,14 +59,16 @@ accessor.searchOneFromAria('Saitama', function(model) {
         };
         socket.emit('tweet', twitterMessage);
       });
-    });
-    socket.on('disconnect', function () {
-      console.log('user disconnected.');
-      io.sockets.emit('user disconnected');
-    });
-    socket.on('close', function () {
-      console.log('user disconnected.');
-      io.sockets.emit('user disconnected');
+      socket.on('disconnect', function () {
+        console.log('user disconnected.');
+        console.log(stream);
+        stream.destroy();
+      });
+      socket.on('close', function () {
+        console.log('user closed.');
+        console.log(stream);
+        stream.destroy();
+      });
     });
   });
 });
