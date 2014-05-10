@@ -20,11 +20,11 @@ var server = http.createServer(app),
 
 server.listen(port);
 
-// heroku でWebSocket使うための設定
-io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 10); 
-});
+// // heroku でWebSocket使うための設定
+// io.configure(function () { 
+//   io.set("transports", ["xhr-polling"]); 
+//   io.set("polling duration", 10); 
+// });
 
 console.log('port: ' + port);
 
@@ -34,7 +34,7 @@ console.log('port: ' + port);
 var titles = '';
 var AnimeAccessor = require('./accessor/animeAccessor');
 var accessor = new AnimeAccessor;
-console.log('----------------------------------------------------------------');
+console.log('search condition for twitter stream');
 accessor.searchOneFromAria('Saitama', function(model) {
   titles = model.titles;
   console.log('titles: ' + titles);
@@ -49,6 +49,7 @@ accessor.searchOneFromAria('Saitama', function(model) {
     access_token_key: (process.env.TWITTER_ACCESS_TOKEN || tweet.access_token_key),
     access_token_secret: (process.env.TWITTER_ACCESS_TOKEN_SECRET || tweet.access_token_secret)
   });
+  console.log('configuration of twitter: ' + twit);
   
   io.sockets.on('connection', function (socket) {
     console.log('socket connected.');
