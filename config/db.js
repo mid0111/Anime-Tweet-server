@@ -7,7 +7,7 @@ var config = {
     host     : '127.0.0.1',
     user     : 'postgres',
     password : 'postgres',
-    database : 'anime_tweet_dev'
+    database : 'anime_tweet_test'
   },
 
   test: {

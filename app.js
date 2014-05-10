@@ -29,62 +29,42 @@ io.configure(function () {
 console.log('port: ' + port);
 
 // Twitter検索条件
-// TODO タイトル取得処理は直接Httpリクエスト投げないで、バッチとかで実行する
-//     ※現状は、初回起動時のみHttpリクエスト（しかも非同期）でタイトル取得
+// TODO ユーザの地域に基づいて検索条件を取得する
+//     ※現状は、固定値
 var titles = '';
-var options = {
-  host: 'animemap.net',
-  path: '/api/table/tokyo.json'
-};
-http.request(options, function(response) {
-  var str = '';
-  response.on('data', function (chunk) {
-    str += chunk;
+var AnimeAccessor = require('./accessor/animeAccessor');
+var accessor = new AnimeAccessor;
+accessor.searchOneFromAria('Saitama', function(model) {
+  titles = model.titles;
+  console.log('titles: ' + titles);
+  //
+  // Twitterストリーミング
+  //
+  var twitter = require('ntwitter');
+  var tweet = require('./config/twitter');
+  var twit = new twitter({
+    consumer_key: (process.env.TWITTER_API_KEY || tweet.consumer_key),
+    consumer_secret: (process.env.TWITTER_API_SECRET || tweet.consumer_secret),
+    access_token_key: (process.env.TWITTER_ACCESS_TOKEN || tweet.access_token_key),
+    access_token_secret: (process.env.TWITTER_ACCESS_TOKEN_SECRET || tweet.access_token_secret)
   });
-
-  response.on('end', function () {
-    var items = JSON.parse(str).response.item;
-
-    for (var i = 0 ; i < items.length ; i++) {
-      var item = items[i];
-      var title = item.title;
-      if(title === 'undefined') {
-        continue;
-      } else if(titles !== null && titles.length != 0) {
-        titles += ', ';
-      }
-      titles += title;
-    }
-  });
-}).end();
-
-//
-// Twitterストリーミング
-//
-var twitter = require('ntwitter');
-var twit = new twitter({
-  consumer_key: process.env.TWITTER_API_KEY,
-  consumer_secret: process.env.TWITTER_API_SECRET,
-  access_token_key: process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-});
   
-io.sockets.on('connection', function (socket) {
-  console.log('socket connected.');
-  // Twitterストリーム作成
-  var twitStream = twit.stream('statuses/filter', {'track': titles}, function(stream) {
-    stream.on('data', function (data) {
-      console.log('tweets: ' + JSON.stringify(data));
-      var twitterMessage = {
-        userId: data.user.name,
-        message: data.text
-      };
-      socket.emit('tweet', twitterMessage);
+  io.sockets.on('connection', function (socket) {
+    console.log('socket connected.');
+    // Twitterストリーム作成
+    var twitStream = twit.stream('statuses/filter', {'track': titles}, function(stream) {
+      stream.on('data', function (data) {
+        console.log('tweets: ' + JSON.stringify(data));
+        var twitterMessage = {
+          userId: data.user.name,
+          message: data.text
+        };
+        socket.emit('tweet', twitterMessage);
+      });
+    });
+    socket.on('disconnect', function () {
+      console.log('user disconnected.');
+      io.sockets.emit('user disconnected');
     });
   });
-  socket.on('disconnect', function () {
-    console.log('user disconnected.');
-    io.sockets.emit('user disconnected');
-  });
 });
-
